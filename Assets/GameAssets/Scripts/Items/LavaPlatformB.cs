@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LavaPlatform : MonoBehaviour {
+public class LavaPlatformB : MonoBehaviour
+{
 
     /* Variables */
 
@@ -20,13 +21,9 @@ public class LavaPlatform : MonoBehaviour {
     private void Update()
     {
         this.transform.LookAt(whereToLook);
-        
-        MovePlatform(movementDirection);
 
-        if (player != null)
-        {
-            MovePlayer();
-        }
+
+        MovePlatform(movementDirection);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,11 +32,14 @@ public class LavaPlatform : MonoBehaviour {
 
         if (character != null)
         {
-            player = character;
+            Vector3 globalRotation = character.transform.eulerAngles;
+            Vector3 platfomRelativeRotation = this.transform.InverseTransformDirection(globalRotation);
 
-            Debug.Log("Player position: " + player.transform.position);
-            Debug.Log("Platform position: " + this.transform.position);
-            Debug.Log("Player - platform position: " + (player.transform.position - this.transform.position));
+            Debug.Log("Global: " + globalRotation);
+            Debug.LogError("Local: " + platfomRelativeRotation);
+
+            character.transform.SetParent(this.transform, true);
+            character.transform.localEulerAngles = platfomRelativeRotation;
         }
     }
 
@@ -49,13 +49,10 @@ public class LavaPlatform : MonoBehaviour {
 
         if (character != null)
         {
-            player = null;
+            Quaternion rotation = character.transform.rotation;
+            character.transform.SetParent(null, true);
+            character.transform.rotation = rotation;
         }
-    }
-
-    private void MovePlayer()
-    {
-        player.transform.position = player.transform.position + (player.transform.position - this.transform.position);
     }
 
     /// <summary>
