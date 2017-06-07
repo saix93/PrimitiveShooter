@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 44bbb667b5e472943b1c1521ba87a5e1
+timeCreated: 1496651275
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Ancherr Personal Use
+  fontNames:
+  - Ancherr Personal Use
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
