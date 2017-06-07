@@ -176,7 +176,6 @@ public class Weapon : MonoBehaviour {
         }
 
         reloadAudio.Play();
-        int oldCurrentAmmo = currentAmmo;
         int bulletsToLoad = maxClipAmmo - currentClipAmmo;
 
         currentAmmo -= bulletsToLoad;
