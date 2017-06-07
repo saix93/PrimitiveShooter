@@ -1,9 +1,31 @@
-# Ignore everything
-*
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
 
-# But not these files...
-!.gitignore
-!Assets
-!Assets/**
-!ProjectSettings
-!ProjectSettings/**
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
