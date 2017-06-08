@@ -2,17 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThrowGrenade : Weapon {
+public class ThrowGrenade : MonoBehaviour {
+
+    /* Variable */
+    // Prefab de la granada
+    [SerializeField]
+    private Rigidbody grenadePrefab;
+
+    // Fuerza de la granada
+    [SerializeField]
+    private float launchForce = 10;
 
     /* Métodos */
 
-    public override void ManageWeapon()
+    private void Update()
     {
-        base.ManageWeapon();
-
         if (Input.GetButtonDown("Fire2"))
         {
             Shoot();
         }
+    }
+
+    private void Shoot()
+    {
+        Rigidbody newGrenade = Instantiate(grenadePrefab, this.transform.position, this.transform.rotation);
+
+        newGrenade.AddForce(this.transform.forward * launchForce, ForceMode.Impulse);
     }
 }

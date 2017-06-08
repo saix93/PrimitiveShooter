@@ -11,6 +11,10 @@ public class Turret : Character {
     [SerializeField]
     private Weapon turretWeapon2;
 
+    // Velocidad de rotación
+    [SerializeField]
+    private float rotationSpeed = 90;
+
     // LayerMask para ignorar raycasts
     [SerializeField]
     private LayerMask layerMask;
@@ -59,7 +63,22 @@ public class Turret : Character {
             {
                 isPlayerInSight = true;
             }
+
+            // Aplicar una rotación poco a poco:
+            // TODO: Aplicar este cambio
+            /*
+            Quaternion rotationLookAtPlayer = Quaternion.LookRotation(player.transform.position - this.transform.position);
+
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationLookAtPlayer, rotationSpeed * Time.deltaTime);
+            */
         }
+
+        /*
+        if (!isPlayerInSight)
+        {
+            this.transform.Rotate(new Vector3(0, rotationSpeed, 0) * Time.deltaTime);
+        }
+        */
     }
 
     private void OnTriggerEnter(Collider other)

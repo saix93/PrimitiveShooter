@@ -9,10 +9,6 @@ public class Player : Character {
 
     // Arma actual
     public Weapon currentWeapon;
-
-    // Lanzador de granadas
-    [SerializeField]
-    private Weapon throwGrenade;
 	
     /* Métodos */
 
@@ -20,8 +16,6 @@ public class Player : Character {
 		if (currentLife > 0 && currentWeapon != null)
         {
             currentWeapon.ManageWeapon();
-
-            throwGrenade.ManageWeapon();
         }
 	}
 
