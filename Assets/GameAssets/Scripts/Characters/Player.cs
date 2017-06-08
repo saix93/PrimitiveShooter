@@ -8,7 +8,7 @@ public class Player : Character {
     /* Variables */
 
     // Arma actual
-    public Weapon currentWeapon;
+    private Weapon currentWeapon;
 	
     /* Métodos */
 
@@ -18,6 +18,11 @@ public class Player : Character {
             currentWeapon.ManageWeapon();
         }
 	}
+
+    public Weapon GetWeapon()
+    {
+        return currentWeapon;
+    }
 
     /// <summary>
     /// Cambia el arma actual

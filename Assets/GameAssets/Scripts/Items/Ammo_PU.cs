@@ -20,7 +20,7 @@ public class Ammo_PU : PowerUp {
         }
         else
         {
-            player.currentWeapon.AddAmmo(amount);
+            player.GetWeapon().AddAmmo(amount);
         }
 
         Destroy(this.gameObject);

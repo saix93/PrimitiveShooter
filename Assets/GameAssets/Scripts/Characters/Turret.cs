@@ -18,26 +18,23 @@ public class Turret : Character {
     // LayerMask para ignorar raycasts
     [SerializeField]
     private LayerMask layerMask;
-    
-    // Tiempo que va a esperar la torreta antes de empezar a disparar al objetivo
+
+    // Máximo rango del raycast
     [SerializeField]
-    private float timeToWaitUntilShoot = 2;
+    private float turretRange = 75;
 
     // Sistema de partículas de explosión de torreta
     [SerializeField]
     private GameObject turretExplosionPSPrefab;
 
     // ¿Está el jugador a la vista?
-    private bool isPlayerInSight;
+    private bool isPlayerInSight = false;
 
-    // ¿Debe la torreta disparar al enemigo?
-    private bool shouldTurretFire = false;
-
-    // Máximo rango del raycast
-    private float raycastMaxDistance = 100;
+    // ¿Está la torreta mirando al jugador?
+    private bool isTurretLookingAtPlayer = false;
 
     // Jugador
-    private Player player;
+    private GameObject player;
 
     /* Métodos */
 
@@ -45,78 +42,62 @@ public class Turret : Character {
     {
         hasBlood = false;
 
+        player = GameObject.FindGameObjectWithTag("Player");
+
         // raycastMaxDistance;
+    }
+
+    private void Update()
+    {
+        if (isTurretLookingAtPlayer)
+        {
+            turretWeapon1.ManageWeapon(player.GetComponent<Player>());
+            turretWeapon2.ManageWeapon(player.GetComponent<Player>());
+        }
     }
 
     void FixedUpdate()
     {
         RaycastHit hitInfo;
 
-        // Posición, dirección, color, duración
-        Debug.DrawRay(this.transform.position + this.transform.forward, this.transform.forward * 20, Color.blue, 0.5f);
+        Vector3 shootingPoint = this.transform.position + this.transform.forward;
+        Vector3 directionToPlayer = player.transform.position - shootingPoint;
 
-        if (Physics.Raycast(this.transform.position + this.transform.forward, this.transform.forward, out hitInfo, raycastMaxDistance, layerMask, QueryTriggerInteraction.Ignore))
+        // Posición, dirección, color, duración
+        Debug.DrawRay(shootingPoint, directionToPlayer, Color.blue, 0.2f);
+        Debug.DrawRay(shootingPoint, this.transform.forward * 20, Color.green, 0.2f);
+
+        isPlayerInSight = false;
+        isTurretLookingAtPlayer = false;
+
+        if (Physics.Raycast(shootingPoint, directionToPlayer, out hitInfo, turretRange, layerMask, QueryTriggerInteraction.Ignore))
         {
-            isPlayerInSight = false;
+            Debug.Log(hitInfo.transform.name);
 
             if (hitInfo.collider.CompareTag("Player"))
             {
+                // Aplicar una rotación poco a poco:
+                Quaternion rotationLookAtPlayer = Quaternion.LookRotation(directionToPlayer);
+                this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationLookAtPlayer, rotationSpeed * Time.deltaTime);
+
                 isPlayerInSight = true;
+
+                // this.transform.LookAt(player.transform);
+                if (Physics.Raycast(shootingPoint, this.transform.forward, out hitInfo, turretRange, layerMask, QueryTriggerInteraction.Ignore))
+                {
+                    if (hitInfo.collider.CompareTag("Player"))
+                    {
+                        isTurretLookingAtPlayer = true;
+                    }
+                }
             }
-
-            // Aplicar una rotación poco a poco:
-            // TODO: Aplicar este cambio
-            /*
-            Quaternion rotationLookAtPlayer = Quaternion.LookRotation(player.transform.position - this.transform.position);
-
-            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationLookAtPlayer, rotationSpeed * Time.deltaTime);
-            */
         }
-
-        /*
+        
+        // Cuando el player no está a la vista del raycast de la torreta
         if (!isPlayerInSight)
         {
             this.transform.Rotate(new Vector3(0, rotationSpeed, 0) * Time.deltaTime);
         }
-        */
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            player = other.GetComponent<Player>();
-
-            shouldTurretFire = false;
-            Invoke("ShouldFireTheEnemy", timeToWaitUntilShoot);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (player != null)
-        {
-            this.transform.LookAt(player.transform);
-
-            if (isPlayerInSight && shouldTurretFire)
-            {
-                turretWeapon1.ManageWeapon(player);
-                turretWeapon2.ManageWeapon(player);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            player = null;
-        }
-    }
-
-    private void ShouldFireTheEnemy()
-    {
-        shouldTurretFire = true;
     }
 
     /// <summary>
