@@ -55,10 +55,6 @@ public class LavaPlatform : MonoBehaviour {
             player = character;
 
             previousPlatformPosition = this.transform.position;
-
-            Debug.Log("Player position: " + player.transform.position);
-            Debug.Log("Platform position: " + this.transform.position);
-            Debug.Log("Player - platform position: " + (player.transform.position - this.transform.position));
         }
     }
 

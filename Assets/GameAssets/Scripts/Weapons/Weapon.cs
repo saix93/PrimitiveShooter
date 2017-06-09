@@ -89,9 +89,8 @@ public class Weapon : MonoBehaviour {
     private void Update()
     {
         // TODO: Cambiar a un script aplicado en el propio texto del canvas
-        ammoInfoText = GameObject.FindGameObjectWithTag("CanvasAmmoText").GetComponent<Text>();
-        ammoInfoText.text = String.Format("{0} / {1} | {2}", currentClipAmmo, maxClipAmmo, currentAmmo);
-        ammoInfoText.GetComponent<ContentSizeFitter>().SetLayoutHorizontal();
+        //ammoInfoText = GameObject.FindGameObjectWithTag("CanvasAmmoText").GetComponent<Text>();
+        //ammoInfoText.text = String.Format("{0} / {1} | {2}", currentClipAmmo, maxClipAmmo, currentAmmo);
     }
 
     /// <summary>
@@ -106,7 +105,7 @@ public class Weapon : MonoBehaviour {
 
         if (!infiniteAmmo && currentClipAmmo <= 0)
         {
-            Reload();
+            Reload(); // TODO: Reproducir sonido cuando no hay munición en el cargador
             return;
         }
         
@@ -178,24 +177,39 @@ public class Weapon : MonoBehaviour {
         reloadAudio.Play();
         int bulletsToLoad = maxClipAmmo - currentClipAmmo;
 
+        // Se evita que la munición que se va a recargar sea mayor que la que tenemos actualmente
+        bulletsToLoad = Mathf.Min(bulletsToLoad, currentAmmo);
+
         currentAmmo -= bulletsToLoad;
-
-        // Si la munición total actual es menor que 0 (Tenía 8 y he recargado un cargador de 10)
-        if (currentAmmo < 0)
-        {
-            bulletsToLoad += currentAmmo;
-
-            // La munición total actual es 0
-            currentAmmo = 0;
-        }
 
         currentClipAmmo += bulletsToLoad;
 
         timeToShoot = Time.time + reloadTime;
     }
 
+    // Getters
     public int GetWeaponId()
     {
         return weaponID;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return maxAmmo;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return currentAmmo;
+    }
+
+    public int GetMaxClipAmmo()
+    {
+        return maxClipAmmo;
+    }
+
+    public int GetCurrentClipAmmo()
+    {
+        return currentClipAmmo;
     }
 }

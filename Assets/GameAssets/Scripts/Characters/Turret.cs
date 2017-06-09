@@ -72,8 +72,6 @@ public class Turret : Character {
 
         if (Physics.Raycast(shootingPoint, directionToPlayer, out hitInfo, turretRange, layerMask, QueryTriggerInteraction.Ignore))
         {
-            Debug.Log(hitInfo.transform.name);
-
             if (hitInfo.collider.CompareTag("Player"))
             {
                 // Aplicar una rotación poco a poco:
