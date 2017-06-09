@@ -71,32 +71,19 @@ public class Weapon : MonoBehaviour {
     public bool infiniteAmmo = false;
 
     // Instante de tiempo a partir del cual podré disparar
-    private float timeToShoot = 0;
+    protected float timeToShoot = 0;
 
     // Sonidos
-    private AudioSource fireAudio;
-    private AudioSource reloadAudio;
+    protected AudioSource fireAudio;
+    protected AudioSource reloadAudio;
 
 
     /* Métodos */
 
-    private void Awake()
-    {
-        fireAudio = transform.Find("Sounds/Fire").GetComponent<AudioSource>();
-        reloadAudio = transform.Find("Sounds/Reload").GetComponent<AudioSource>();
-    }
-            
-    private void Update()
-    {
-        // TODO: Cambiar a un script aplicado en el propio texto del canvas
-        //ammoInfoText = GameObject.FindGameObjectWithTag("CanvasAmmoText").GetComponent<Text>();
-        //ammoInfoText.text = String.Format("{0} / {1} | {2}", currentClipAmmo, maxClipAmmo, currentAmmo);
-    }
-
     /// <summary>
     /// Dispara
     /// </summary>
-    protected void Shoot()
+    protected virtual void Shoot()
     {
         if (Time.time < timeToShoot)
         {

@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerHands : MonoBehaviour {
 
     /* Variables */
+    // ID del arma con la que empieza
+    [SerializeField]
+    private int startingWeaponID = 0;
+
     // Array de armas
     private Weapon[] weaponArray;
 
@@ -24,9 +28,9 @@ public class PlayerHands : MonoBehaviour {
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
-        ownedWeapons[0] = true;
+        ownedWeapons[startingWeaponID] = true;
 
-        ChooseWeapon(0);
+        ChooseWeapon(startingWeaponID);
     }
 
     void Update () {

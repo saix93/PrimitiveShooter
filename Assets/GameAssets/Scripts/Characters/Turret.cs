@@ -64,8 +64,8 @@ public class Turret : Character {
         Vector3 directionToPlayer = player.transform.position - shootingPoint;
 
         // Posición, dirección, color, duración
-        Debug.DrawRay(shootingPoint, directionToPlayer, Color.blue, 0.2f);
-        Debug.DrawRay(shootingPoint, this.transform.forward * 20, Color.green, 0.2f);
+        // Debug.DrawRay(shootingPoint, directionToPlayer, Color.blue, 0.2f);
+        // Debug.DrawRay(shootingPoint, this.transform.forward * 20, Color.green, 0.2f);
 
         isPlayerInSight = false;
         isTurretLookingAtPlayer = false;

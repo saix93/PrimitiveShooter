@@ -7,7 +7,7 @@ public class Weapon_PU : PowerUp {
     /* Variables */
     // Arma que se va a recoger
     [SerializeField]
-    private Weapon weaponToPickUpPrefab;
+    private GameObject weaponToPickUpPrefab;
 
     private int weaponToAdd;
 
