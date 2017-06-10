@@ -21,6 +21,10 @@ public class ThrowGrenade : MonoBehaviour {
     [SerializeField]
     private int maxGrenades = 8;
 
+    // Daño de la granada
+    [SerializeField]
+    private int grenadeDamage = 70;
+
     /* Métodos */
 
     private void Update()
@@ -37,6 +41,8 @@ public class ThrowGrenade : MonoBehaviour {
     private void Shoot()
     {
         Rigidbody newGrenade = Instantiate(grenadePrefab, this.transform.position, this.transform.rotation);
+
+        newGrenade.GetComponent<Grenade>().SetGrenadeDamage(grenadeDamage);
 
         newGrenade.AddForce(this.transform.forward * launchForce, ForceMode.Impulse);
 

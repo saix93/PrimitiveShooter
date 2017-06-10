@@ -114,7 +114,7 @@ public class Weapon : MonoBehaviour {
         newBulletshell.AddForce(newBulletshell.transform.up * UnityEngine.Random.Range(minBulletshellForce, maxBulletshellForce));
 
         // Se añade daño a la bala
-        newBullet.GetComponent<Bullet>().SetBulletDamage(weaponDamage);
+        newBullet.GetComponent<Projectile>().SetProjectileDamage(weaponDamage);
 
         // Se añade una fuerza a la bala
         newBullet.AddForce(this.transform.forward * shootForce, ForceMode.Impulse);

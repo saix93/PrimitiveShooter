@@ -9,19 +9,32 @@ public class Weapon_PU : PowerUp {
     [SerializeField]
     private GameObject weaponToPickUpPrefab;
 
-    private int weaponToAdd;
+    private Weapon weaponToAdd;
+
+    private int weaponId;
 
     /* Métodos */
     private void Awake()
     {
-        weaponToAdd = Instantiate(weaponToPickUpPrefab, this.transform.position, this.transform.rotation, this.transform).GetComponent<Weapon>().GetWeaponId();
+        weaponToAdd = Instantiate(weaponToPickUpPrefab, this.transform.position, this.transform.rotation, this.transform).GetComponent<Weapon>();
+        weaponId = weaponToAdd.GetWeaponId();
+
+        // Modifica el tamaño del arma para que se vea más grande
+        weaponToAdd.transform.localScale *= 4;
+
+        // Añade una rotación al arma
+    }
+
+    private void Update()
+    {
+        weaponToAdd.transform.Rotate(0, 5, 0);
     }
 
     protected override void PickUp(Player player)
     {
         base.PickUp(player);
 
-        player.AddWeapon(weaponToAdd);
+        player.AddWeapon(weaponId);
 
         Destroy(this.gameObject);
     }

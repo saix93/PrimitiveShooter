@@ -9,6 +9,10 @@ public class PlayerHands : MonoBehaviour {
     [SerializeField]
     private int startingWeaponID = 0;
 
+    // WeaponsManager
+    [SerializeField]
+    private WeaponsManager weaponsManager;
+
     // Array de armas
     private Weapon[] weaponArray;
 
@@ -49,6 +53,12 @@ public class PlayerHands : MonoBehaviour {
     public void AddWeapon(int weaponNumber)
     {
         ownedWeapons[weaponNumber] = true;
+        weaponsManager.RefreshWeaponsGUI(ownedWeapons);
+    }
+
+    public bool IsWeaponOwned(int id)
+    {
+        return ownedWeapons[id];
     }
 
     /// <summary>
@@ -65,6 +75,8 @@ public class PlayerHands : MonoBehaviour {
         DisableWeapons();
 
         weaponArray[arrayIndex].gameObject.SetActive(true);
+
+        weaponsManager.ChooseWeapon(arrayIndex);
 
         player.SetWeapon(weaponArray[arrayIndex]);
     }

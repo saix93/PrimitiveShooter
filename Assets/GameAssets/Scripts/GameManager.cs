@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     /* Variables */
+    // Nombre del player
+    public static string playerName;
 
     /* Métodos */
 

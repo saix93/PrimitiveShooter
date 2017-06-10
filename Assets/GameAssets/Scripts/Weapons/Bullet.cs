@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour {
-
+public class Bullet : Projectile
+{
     /* Variables */
-    // Daño de la bala
-    private int bulletDamage;
-
-    // Tiempo de vida de cada bala
-    [SerializeField]
-    private float lifetime = 6;
-
     // Sistema de partículas
     [SerializeField]
     private GameObject sparkPSPrefab;
@@ -20,23 +13,17 @@ public class Bullet : MonoBehaviour {
     [SerializeField]
     private GameObject bloodPSPrefab;
 
-    private void Start()
-    {
-        Destroy(this.gameObject, lifetime);
-    }
+    /* Métodos */
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnProjectileHit(Collider other)
     {
-        if (other.isTrigger)
-        {
-            return;
-        }
+        base.OnProjectileHit(other);
 
         if (other.gameObject.GetComponent<Character>() != null || other.gameObject.GetComponentInParent<Character>() != null)
         {
             Character targetCharacter = other.gameObject.GetComponent<Character>() != null ? other.gameObject.GetComponent<Character>() : other.gameObject.GetComponentInParent<Character>();
 
-            targetCharacter.ReceiveDamage(bulletDamage);
+            targetCharacter.ReceiveDamage(projectileDamage);
 
             GameObject hitPSPrefab;
 
@@ -66,16 +53,4 @@ public class Bullet : MonoBehaviour {
             Destroy(this.gameObject);
         }
     }
-
-    /* Métodos */
-
-    /// <summary>
-    /// Modifica el daño de la bala
-    /// </summary>
-    /// <param name="newBulletDamage"></param>
-    public void SetBulletDamage(int newBulletDamage)
-    {
-        bulletDamage = newBulletDamage;
-    }
-
 }

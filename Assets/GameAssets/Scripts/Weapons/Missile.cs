@@ -2,38 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour {
+public class Missile : Projectile
+{
 
     /* Variables */
-
-    // Tiempo que tarda en explotar
+    // Radio de explosión del misil
     [SerializeField]
-    private float timeToExplode = 3;
+    private float explosionRadius = 10;
 
-    // Radio de explosión
-    [SerializeField]
-    private float explosionRadius = 5;
-
-    // Sistema de partículas de la explosión
+    // Sistema de partículas
     [SerializeField]
     private GameObject explosionPSPrefab;
 
-    // Daño de la granada
-    private int grenadeDamage;
+    private void Start()
+    {
+        Destroy(this.gameObject, lifetime);
+    }
 
     /* Métodos */
 
-    void Start () {
-        this.transform.forward = Random.insideUnitSphere;
-        Invoke("Explode", timeToExplode);
-	}
-
-    public void SetGrenadeDamage(int newDamage)
-    {
-        grenadeDamage = newDamage;
-    }
-
-    private void Explode()
+    protected override void OnProjectileHit(Collider other)
     {
         Collider[] colliders = Physics.OverlapSphere(this.transform.position, explosionRadius);
 
@@ -42,7 +30,7 @@ public class Grenade : MonoBehaviour {
             Character character = colliders[i].GetComponent<Character>();
             if (colliders[i].isTrigger == false && character != null)
             {
-                character.ReceiveDamage(grenadeDamage);
+                character.ReceiveDamage(projectileDamage);
             }
         }
 
@@ -52,4 +40,5 @@ public class Grenade : MonoBehaviour {
         Destroy(this.gameObject);
         Destroy(explosionPS, 4);
     }
+
 }

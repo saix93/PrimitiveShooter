@@ -34,12 +34,26 @@ public class Lava : MonoBehaviour {
     {
         if (Time.time >= timeToHit && characterList.Count > 0)
         {
+            List<Character> removeList = new List<Character>();
+
             foreach (Character character in characterList)
             {
-                character.ReceiveDamage(lavaDamage);
+                if (character == null)
+                {
+                    removeList.Add(character);
+                }
+                else
+                {
+                    character.ReceiveDamage(lavaDamage);
+                }
             }
 
             timeToHit = Time.time + hitCooldown;
+
+            foreach (Character character in removeList)
+            {
+                characterList.Remove(character);
+            }
         }
     }
 
