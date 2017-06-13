@@ -18,6 +18,10 @@ public class Grenade : MonoBehaviour {
     [SerializeField]
     private GameObject explosionPSPrefab;
 
+    // Prefab del audio de explosion
+    [SerializeField]
+    private GameObject explosionAudioPrefab;
+
     // Daño de la granada
     private int grenadeDamage;
 
@@ -48,6 +52,8 @@ public class Grenade : MonoBehaviour {
 
         GameObject explosionPS = Instantiate(explosionPSPrefab);
         explosionPS.transform.position = this.transform.position;
+
+        Instantiate(explosionAudioPrefab, this.transform.position, this.transform.rotation);
 
         Destroy(this.gameObject);
         Destroy(explosionPS, 4);

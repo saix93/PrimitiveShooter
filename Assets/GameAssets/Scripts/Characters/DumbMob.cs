@@ -18,6 +18,10 @@ public class DumbMob : Character {
     [SerializeField]
     private GameObject explosionPSPrefab;
 
+    // Sistema de partículas de explosión
+    [SerializeField]
+    private GameObject explosionAudioPrefab;
+
     // ¿Va a explotar?
     private bool isAboutToExplode = false;
 
@@ -74,6 +78,8 @@ public class DumbMob : Character {
         }
 
         GameObject newExplosion = Instantiate(explosionPSPrefab, this.transform.position, this.transform.rotation);
+
+        Instantiate(explosionAudioPrefab, this.transform.position, this.transform.rotation);
 
         Destroy(newExplosion, 2);
 

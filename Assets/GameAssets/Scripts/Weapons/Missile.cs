@@ -14,6 +14,10 @@ public class Missile : Projectile
     [SerializeField]
     private GameObject explosionPSPrefab;
 
+    // Objeto de explosión
+    [SerializeField]
+    private GameObject explosionAudioPrefab;
+
     private void Start()
     {
         Destroy(this.gameObject, lifetime);
@@ -36,6 +40,8 @@ public class Missile : Projectile
 
         GameObject explosionPS = Instantiate(explosionPSPrefab);
         explosionPS.transform.position = this.transform.position;
+
+        Instantiate(explosionAudioPrefab, this.transform.position, this.transform.rotation);
 
         Destroy(this.gameObject);
         Destroy(explosionPS, 4);

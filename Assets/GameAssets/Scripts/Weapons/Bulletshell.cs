@@ -24,7 +24,10 @@ public class Bulletshell : MonoBehaviour {
 
     private void Awake()
     {
-        bulletshellAudio0 = transform.Find("Sounds/Bulletshells0").GetComponent<AudioSource>();
+        bulletshellArray = this.GetComponentsInChildren<AudioSource>();
+
+
+        /* bulletshellAudio0 = transform.Find("Sounds/Bulletshells0").GetComponent<AudioSource>();
         bulletshellAudio1 = transform.Find("Sounds/Bulletshells1").GetComponent<AudioSource>();
         bulletshellAudio2 = transform.Find("Sounds/Bulletshells2").GetComponent<AudioSource>();
         bulletshellAudio3 = transform.Find("Sounds/Bulletshells3").GetComponent<AudioSource>();
@@ -34,7 +37,7 @@ public class Bulletshell : MonoBehaviour {
         bulletshellArray[0] = bulletshellAudio0;
         bulletshellArray[1] = bulletshellAudio1;
         bulletshellArray[2] = bulletshellAudio2;
-        bulletshellArray[3] = bulletshellAudio3;
+        bulletshellArray[3] = bulletshellAudio3; */
     }
 
     private void Start()
@@ -47,7 +50,8 @@ public class Bulletshell : MonoBehaviour {
         if (!alreadySounded)
         {
             // bulletshellArray[Random.Range(0, 4)].Play();
-            bulletshellArray[Random.Range(0, 4)].PlayOneShot(bulletshellArray[Random.Range(0, 4)].clip);
+            int randomTrack = Random.Range(0, bulletshellArray.Length);
+            bulletshellArray[randomTrack].PlayOneShot(bulletshellArray[randomTrack].clip);
 
             this.GetComponent<Rigidbody>().isKinematic = true;
 

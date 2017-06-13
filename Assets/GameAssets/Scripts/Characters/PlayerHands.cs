@@ -15,7 +15,7 @@ public class PlayerHands : MonoBehaviour {
 
     // Array de armas
     private Weapon[] weaponArray;
-
+    
     private bool[] ownedWeapons;
 
     // Player
