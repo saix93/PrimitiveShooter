@@ -26,6 +26,12 @@ public class LavaPlatform : MonoBehaviour {
     [SerializeField]
     private BossManager bm;
 
+    [SerializeField]
+    private float upperPlatformLimit = -10f;
+    [SerializeField]
+    private float lowerPlatformLimit = -12f;
+    private bool platformMovesDown;
+
     private int movementDirection = 1; // 0 -> Quieto. 1 -> Derecha. 2 -> Izquierda
 
     private Character player;
@@ -82,6 +88,41 @@ public class LavaPlatform : MonoBehaviour {
         {
             player = null;
         }
+    }
+
+    /// <summary>
+    /// Modififca la posición de la plataforma
+    /// </summary>
+    private void MovePlatform()
+    {
+        Vector3 position = this.transform.localPosition;
+
+        if (platformMovesDown)
+        {
+            position += -this.transform.up * Time.deltaTime;
+
+            position.y = Mathf.Max(position.y, lowerPlatformLimit);
+        }
+        else
+        {
+            position += this.transform.up * Time.deltaTime;
+
+            position.y = Mathf.Min(position.y, upperPlatformLimit);
+        }
+
+        this.transform.localPosition = position;
+    }
+
+    public void SetPlatformMovement(bool newVal)
+    {
+        platformMovesDown = newVal;
+
+        Invoke("RestartPlatformMovement", 3);
+    }
+
+    private void RestartPlatformMovement()
+    {
+        platformMovesDown = false;
     }
 
     private void MovePlayer()

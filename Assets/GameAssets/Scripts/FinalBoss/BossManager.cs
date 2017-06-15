@@ -17,6 +17,7 @@ public class BossManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject boss;
+    private FinalBoss fBoss;
 
     private LavaPlatform[] platformArray;
 
@@ -31,6 +32,8 @@ public class BossManager : MonoBehaviour {
     private void Awake()
     {
         platformArray = this.transform.Find("Platforms").GetComponentsInChildren<LavaPlatform>();
+
+        fBoss = boss.GetComponent<FinalBoss>();
     }
 
     private void Update()
@@ -40,6 +43,10 @@ public class BossManager : MonoBehaviour {
         ManagerPlatformMovement(shouldPlatformMove);
     }
 
+    /// <summary>
+    /// Controla el movimiento de las plataformas
+    /// </summary>
+    /// <param name="shouldMove"></param>
     private void ManagerPlatformMovement(bool shouldMove)
     {
         foreach (LavaPlatform platform in platformArray)
@@ -72,6 +79,14 @@ public class BossManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Activa el boss
+    /// </summary>
+    private void ActivateBoss()
+    {
+        fBoss.ActivateBoss();
+    }
+
+    /// <summary>
     /// Prepara el combate con el boss
     /// </summary>
     public void PrepareBoss()
@@ -95,6 +110,8 @@ public class BossManager : MonoBehaviour {
         if (!hasStarted)
         {
             wallsGoDown = false;
+
+            Invoke("ActivateBoss", 3);
 
             hasStarted = true;
         }
