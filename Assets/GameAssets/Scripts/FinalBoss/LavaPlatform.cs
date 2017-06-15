@@ -22,6 +22,10 @@ public class LavaPlatform : MonoBehaviour {
     [SerializeField]
     private float actualAngle;
 
+    // BossManager
+    [SerializeField]
+    private BossManager bm;
+
     private int movementDirection = 1; // 0 -> Quieto. 1 -> Derecha. 2 -> Izquierda
 
     private Character player;
@@ -29,19 +33,28 @@ public class LavaPlatform : MonoBehaviour {
 
     private Vector3 previousPlatformPosition;
 
+    public bool shouldMove;
+
     /* Métodos */
+
+    private void Start()
+    {
+        actualAngle = actualAngle * Mathf.Deg2Rad;
+    }
 
     private void Update()
     {
-
-        if (player != null)
+        if (shouldMove)
         {
             // Se modifica la posición de la plataforma para que rote alrededor de un punto concreto (rotationPoint)
             this.transform.position = rotationPoint.position + new Vector3(Mathf.Cos(actualAngle), 0, Mathf.Sin(actualAngle)) * radius;
 
             // Se modifica el angulo actual
             actualAngle += angularSpeed * Mathf.Deg2Rad * Time.deltaTime;
+        }
 
+        if (player)
+        {
             MovePlayer();
         }
     }
@@ -50,11 +63,14 @@ public class LavaPlatform : MonoBehaviour {
     {
         Character character = other.GetComponent<Character>();
 
-        if (character != null)
+        if (character)
         {
             player = character;
 
             previousPlatformPosition = this.transform.position;
+
+            // Inicia el combate
+            bm.StartBoss();
         }
     }
 
@@ -62,7 +78,7 @@ public class LavaPlatform : MonoBehaviour {
     {
         Character character = other.GetComponent<Character>();
 
-        if (character != null)
+        if (character)
         {
             player = null;
         }
