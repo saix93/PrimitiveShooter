@@ -88,9 +88,7 @@ public class FinalBoss : Character {
         yield return new WaitForSeconds(rayCastTime);
 
         //TODO: Revisar
-        RaycastHit[] hitArray = Physics.RaycastAll(this.transform.position, player.transform.position, Mathf.Infinity, -1, QueryTriggerInteraction.Ignore);
-
-        Debug.Log(hitArray);
+        RaycastHit[] hitArray = Physics.RaycastAll(this.transform.position, this.transform.forward, Mathf.Infinity, -1, QueryTriggerInteraction.Ignore);
 
         foreach (RaycastHit hit in hitArray)
         {
