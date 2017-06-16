@@ -16,10 +16,15 @@ public class BossManager : MonoBehaviour {
     private float wallsMovementSpeed = 10;
 
     [SerializeField]
+    private int turretDamageWhenDestroyed = 1400;
+
+    [SerializeField]
     private GameObject boss;
     private FinalBoss fBoss;
 
     private LavaPlatform[] platformArray;
+
+    private int numberOfTurrets = 2;
 
     private bool wallsGoDown;
     private bool shouldPlatformMove;
@@ -115,5 +120,41 @@ public class BossManager : MonoBehaviour {
 
             hasStarted = true;
         }
+    }
+
+    /// <summary>
+    /// Controla la destrucción de una torreta del boss
+    /// </summary>
+    public void TurretDestroyed()
+    {
+        fBoss.ReceiveDamage(turretDamageWhenDestroyed);
+        numberOfTurrets--;
+
+        if (numberOfTurrets == 1)
+        {
+            StartPhaseTwo();
+        }
+        else if (numberOfTurrets == 0)
+        {
+            StartPhaseThree();
+        }
+    }
+
+    /// <summary>
+    /// Comienza la fase 2
+    /// </summary>
+    private void StartPhaseTwo()
+    {
+        fBoss.SetTimeToShootRay(Time.time + fBoss.GetTimeToShootRayDelay());
+        fBoss.SetPhase(1);
+    }
+
+    /// <summary>
+    /// Comienza la fase 3
+    /// </summary>
+    private void StartPhaseThree()
+    {
+        fBoss.GetSword().gameObject.SetActive(true);
+        fBoss.SetPhase(2);
     }
 }

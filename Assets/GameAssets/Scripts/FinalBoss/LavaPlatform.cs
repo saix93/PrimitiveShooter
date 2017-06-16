@@ -32,8 +32,6 @@ public class LavaPlatform : MonoBehaviour {
     private float lowerPlatformLimit = -12f;
     private bool platformMovesDown;
 
-    private int movementDirection = 1; // 0 -> Quieto. 1 -> Derecha. 2 -> Izquierda
-
     private Character player;
     private bool playerIsOn;
 
@@ -63,6 +61,8 @@ public class LavaPlatform : MonoBehaviour {
         {
             MovePlayer();
         }
+
+        MovePlatform();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -113,53 +113,34 @@ public class LavaPlatform : MonoBehaviour {
         this.transform.localPosition = position;
     }
 
+    /// <summary>
+    /// Decide si la plataforma debe subir o bajar
+    /// </summary>
+    /// <param name="newVal"></param>
     public void SetPlatformMovement(bool newVal)
     {
         platformMovesDown = newVal;
 
-        Invoke("RestartPlatformMovement", 3);
+        Invoke("RestartPlatformMovement", 5);
     }
 
+    /// <summary>
+    /// Reinicia la posición de la plataforma
+    /// </summary>
     private void RestartPlatformMovement()
     {
         platformMovesDown = false;
     }
 
+    /// <summary>
+    /// Mueve al player junto a la plataforma
+    /// </summary>
     private void MovePlayer()
     {
         Vector3 diff = this.transform.position - previousPlatformPosition;
         previousPlatformPosition = this.transform.position;
 
         player.transform.position += diff;
-    }
-
-    /// <summary>
-    /// Mueve la plataforma
-    /// </summary>
-    /// <param name="direction"></param>
-    private void MovePlatform(int direction)
-    {
-        switch (direction)
-        {
-            case 1: MoveRight(); break;
-            case 2: MoveLeft(); break;
-        }
-    }
-
-    /// <summary>
-    /// Mueve a la derecha
-    /// </summary>
-    private void MoveRight()
-    {
-        this.transform.position += this.transform.right / 4 * Time.deltaTime;
-    }
-
-    /// <summary>
-    /// Mueve a la izquierda
-    /// </summary>
-    private void MoveLeft()
-    {
-        this.transform.position += -this.transform.right / 4 * Time.deltaTime;
     }
 
 }

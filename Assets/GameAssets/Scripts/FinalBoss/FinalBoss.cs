@@ -6,11 +6,12 @@ public class FinalBoss : Character {
 
     /* Variables */
     private BossGun[] weaponArray;
+    private Sword sword;
 
     private Player player;
 
-    private bool isBossActive = true;
-    private bool shouldShootConventionalWeapons = true;
+    private bool isBossActive;
+    private bool shouldShootConventionalWeapons;
     private bool shootingRay;
     private float timeToShootRay;
     [SerializeField]
@@ -20,19 +21,25 @@ public class FinalBoss : Character {
     [SerializeField]
     private int rayDamage = 30;
 
-    private int phase = 1;
+    // Fase del combate |
+    // 0 -> Fase 1
+    // 1 -> Fase 2
+    // 2 -> Fase 3
+    private int phase = 0;
 
     /* Métodos */
     private void Awake()
     {
         weaponArray = this.GetComponentsInChildren<BossGun>();
 
+        sword = this.GetComponentInChildren<Sword>();
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void Start()
     {
-        StartPhase2();
+        sword.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -72,6 +79,12 @@ public class FinalBoss : Character {
                     StartCoroutine(ShootRay());
                 }
             }
+
+            // Fase 3
+            if (phase > 1)
+            {
+
+            }
         }
     }
 
@@ -87,7 +100,6 @@ public class FinalBoss : Character {
 
         yield return new WaitForSeconds(rayCastTime);
 
-        //TODO: Revisar
         RaycastHit[] hitArray = Physics.RaycastAll(this.transform.position, this.transform.forward, Mathf.Infinity, -1, QueryTriggerInteraction.Ignore);
 
         foreach (RaycastHit hit in hitArray)
@@ -114,27 +126,37 @@ public class FinalBoss : Character {
     }
 
     /// <summary>
-    /// Comienza la fase 2
-    /// </summary>
-    private void StartPhase2()
-    {
-        timeToShootRay = Time.time + timeToShootRayDelay;
-    }
-    
-    /// <summary>
-    /// Comienza la fase 3
-    /// </summary>
-    private void StartPhase3()
-    {
-        
-    }
-
-    /// <summary>
     /// Activa el boss
     /// </summary>
     public void ActivateBoss()
     {
         isBossActive = true;
         shouldShootConventionalWeapons = true;
+    }
+
+    /* Getters - Setters */
+    public Sword GetSword()
+    {
+        return sword;
+    }
+
+    public float GetTimeToShootRayDelay()
+    {
+        return timeToShootRayDelay;
+    }
+
+    public int GetPhase()
+    {
+        return phase;
+    }
+
+    public void SetPhase(int newPhase)
+    {
+        phase = newPhase;
+    }
+
+    public void SetTimeToShootRay(float newTime)
+    {
+        timeToShootRay = newTime;
     }
 }
