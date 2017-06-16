@@ -48,7 +48,7 @@ public class FinalBoss : Character {
         if (isBossActive)
         {
             // Fases 1 y 2
-            if (phase > 2)
+            if (phase < 2)
             {
                 if (shouldShootConventionalWeapons)
                 {
