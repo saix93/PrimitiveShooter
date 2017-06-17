@@ -18,6 +18,12 @@ public class FinalBoss : Character {
     private bool shouldShootConventionalWeapons;
     private bool shootingRay;
     private float timeToShootRay;
+
+    [SerializeField]
+    private GameObject RaySparkPS;
+    [SerializeField]
+    private GameObject RayThunderPS;
+
     [SerializeField]
     private float timeToShootRayDelay = 10;
     [SerializeField]
@@ -103,7 +109,17 @@ public class FinalBoss : Character {
 
         Debug.DrawRay(this.transform.position, this.transform.forward * 20, Color.red, 5);
 
-        yield return new WaitForSeconds(rayCastTime);
+        yield return new WaitForSeconds(rayCastTime / 2);
+
+        RaySparkPS.SetActive(true);
+
+        StartCoroutine(DisablePS(RaySparkPS, 2));
+
+        yield return new WaitForSeconds(rayCastTime / 2);
+
+        RayThunderPS.SetActive(true);
+
+        StartCoroutine(DisablePS(RayThunderPS, 3));
 
         RaycastHit[] hitArray = Physics.SphereCastAll(this.transform.position, 3, this.transform.forward, Mathf.Infinity, -1, QueryTriggerInteraction.Ignore);
 
@@ -124,15 +140,27 @@ public class FinalBoss : Character {
                 }
             }
         }
-
-        timeToShootRay = timeToShootRayDelay + Time.time;
-        shouldShootConventionalWeapons = true;
-        shootingRay = false;
-
+        
+        Invoke("DeactivateShootingRay", 2);
+        
         if (phase > 1)
         {
             StartCoroutine(ShootRay());
         }
+    }
+
+    private IEnumerator DisablePS(GameObject ps, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        ps.SetActive(false);
+    }
+
+    private void DeactivateShootingRay()
+    {
+        shootingRay = false;
+        timeToShootRay = timeToShootRayDelay + Time.time;
+        shouldShootConventionalWeapons = true;
     }
 
     public void SetInvulnerableWeapons(bool newVal)

@@ -23,6 +23,9 @@ public class BossManager : MonoBehaviour
     private GameObject boss;
     private FinalBoss fBoss;
 
+    [SerializeField]
+    private AudioSource finalBossAudio;
+
     private LavaPlatform[] platformArray;
 
     private int numberOfTurrets = 2;
@@ -115,6 +118,8 @@ public class BossManager : MonoBehaviour
     {
         if (!hasStarted)
         {
+            finalBossAudio.Play();
+
             fBoss.SetInvulnerableWeapons(false);
 
             wallsMovesDown = false;

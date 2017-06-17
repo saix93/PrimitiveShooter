@@ -15,7 +15,7 @@ public class Flamethrower : Weapon {
 
     // Radio del ataque
     [SerializeField]
-    private float attackRadius = 5;
+    private float attackRadius = 2;
 
     // Distancia del ataque
     [SerializeField]
@@ -130,15 +130,18 @@ public class Flamethrower : Weapon {
             hasToInstantiateNewPS = false;
         }
 
-        currentClipAmmo--;
+        if (!infiniteAmmo)
+        {
+            currentClipAmmo--;
+        }
         timeToShoot = Time.time + firerate;
 
-        RaycastHit hitInfo;
+        RaycastHit[] hits = Physics.SphereCastAll(shootingPoint.position, attackRadius, shootingPoint.forward, attackDistance, layerMask, QueryTriggerInteraction.Ignore);
 
-        if (Physics.SphereCast(shootingPoint.position, attackRadius, shootingPoint.forward, out hitInfo, attackDistance, layerMask, QueryTriggerInteraction.Ignore))
+        foreach (RaycastHit hit in hits)
         {
-            Character character = hitInfo.collider.GetComponent<Character>();
-            if (character != null)
+            Character character = hit.collider.GetComponent<Character>();
+            if (character && !character.CompareTag("Player"))
             {
                 character.ReceiveDamage(weaponDamage);
             }
