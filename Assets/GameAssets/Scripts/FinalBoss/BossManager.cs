@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossManager : MonoBehaviour {
+public class BossManager : MonoBehaviour
+{
 
     /* Variables */
     [SerializeField]
@@ -26,7 +27,7 @@ public class BossManager : MonoBehaviour {
 
     private int numberOfTurrets = 2;
 
-    private bool wallsGoDown;
+    private bool wallsMovesDown;
     private bool shouldPlatformMove;
     private bool hasStarted;
     private bool isPrepared;
@@ -45,14 +46,14 @@ public class BossManager : MonoBehaviour {
     {
         ManageWallsPosition();
 
-        ManagerPlatformMovement(shouldPlatformMove);
+        ManagePlatformMovement(shouldPlatformMove);
     }
 
     /// <summary>
     /// Controla el movimiento de las plataformas
     /// </summary>
     /// <param name="shouldMove"></param>
-    private void ManagerPlatformMovement(bool shouldMove)
+    private void ManagePlatformMovement(bool shouldMove)
     {
         foreach (LavaPlatform platform in platformArray)
         {
@@ -67,7 +68,7 @@ public class BossManager : MonoBehaviour {
     {
         Vector3 position = bossDelimitterWalls.transform.localPosition;
 
-        if (wallsGoDown)
+        if (wallsMovesDown)
         {
             position += -bossDelimitterWalls.transform.up * wallsMovementSpeed * Time.deltaTime;
 
@@ -98,7 +99,7 @@ public class BossManager : MonoBehaviour {
     {
         if (!isPrepared)
         {
-            wallsGoDown = true;
+            wallsMovesDown = true;
             shouldPlatformMove = true;
 
             boss.SetActive(true);
@@ -114,7 +115,7 @@ public class BossManager : MonoBehaviour {
     {
         if (!hasStarted)
         {
-            wallsGoDown = false;
+            wallsMovesDown = false;
 
             Invoke("ActivateBoss", 3);
 
@@ -127,7 +128,9 @@ public class BossManager : MonoBehaviour {
     /// </summary>
     public void TurretDestroyed()
     {
+        fBoss.SetInvulnerable(false);
         fBoss.ReceiveDamage(turretDamageWhenDestroyed);
+        fBoss.SetInvulnerable(true);
         numberOfTurrets--;
 
         if (numberOfTurrets == 1)
@@ -145,6 +148,7 @@ public class BossManager : MonoBehaviour {
     /// </summary>
     private void StartPhaseTwo()
     {
+        shouldPlatformMove = false;
         fBoss.SetTimeToShootRay(Time.time + fBoss.GetTimeToShootRayDelay());
         fBoss.SetPhase(1);
     }
@@ -154,7 +158,19 @@ public class BossManager : MonoBehaviour {
     /// </summary>
     private void StartPhaseThree()
     {
+        fBoss.SetInvulnerable(false);
         fBoss.GetSword().gameObject.SetActive(true);
         fBoss.SetPhase(2);
+    }
+
+    /* Getters - Setters */
+    public void SetShouldPlatformMove(bool newVal)
+    {
+        shouldPlatformMove = newVal;
+    }
+
+    public void SetWallsMovesDown(bool newVal)
+    {
+        wallsMovesDown = newVal;
     }
 }

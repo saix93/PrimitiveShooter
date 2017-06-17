@@ -25,11 +25,6 @@ public class Weapon_PU : PowerUp {
         // Añade una rotación al arma
     }
 
-    private void Update()
-    {
-        weaponToAdd.transform.Rotate(0, 5, 0);
-    }
-
     protected override void PickUp(Player player)
     {
         base.PickUp(player);

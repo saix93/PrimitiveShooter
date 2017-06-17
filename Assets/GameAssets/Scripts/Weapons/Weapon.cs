@@ -98,7 +98,10 @@ public class Weapon : MonoBehaviour {
         
         fireAudio.PlayOneShot(fireAudio.clip);
 
-        currentClipAmmo--;
+        if (!infiniteAmmo)
+        {
+            currentClipAmmo--;
+        }
         timeToShoot = Time.time + firerate;
 
         // Se crea la bala

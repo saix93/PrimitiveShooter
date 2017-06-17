@@ -19,6 +19,11 @@ public class PowerUp : MonoBehaviour {
 
     /* Métodos */
 
+    private void Update()
+    {
+        this.transform.Rotate(0, 5, 0);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))

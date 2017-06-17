@@ -10,6 +10,9 @@ public class FinalBoss : Character {
 
     private Player player;
 
+    [SerializeField]
+    private BossManager bm;
+
     private bool isBossActive;
     private bool shouldShootConventionalWeapons;
     private bool shootingRay;
@@ -20,6 +23,8 @@ public class FinalBoss : Character {
     private float rayCastTime = 4;
     [SerializeField]
     private int rayDamage = 30;
+    [SerializeField]
+    private GameObject killPSPrefab;
 
     // Fase del combate |
     // 0 -> Fase 1
@@ -40,6 +45,8 @@ public class FinalBoss : Character {
     private void Start()
     {
         sword.gameObject.SetActive(false);
+
+        this.invulnerable = true;
     }
 
     private void Update()
@@ -79,12 +86,6 @@ public class FinalBoss : Character {
                     StartCoroutine(ShootRay());
                 }
             }
-
-            // Fase 3
-            if (phase > 1)
-            {
-
-            }
         }
     }
 
@@ -100,7 +101,7 @@ public class FinalBoss : Character {
 
         yield return new WaitForSeconds(rayCastTime);
 
-        RaycastHit[] hitArray = Physics.RaycastAll(this.transform.position, this.transform.forward, Mathf.Infinity, -1, QueryTriggerInteraction.Ignore);
+        RaycastHit[] hitArray = Physics.SphereCastAll(this.transform.position, 3, this.transform.forward, Mathf.Infinity, -1, QueryTriggerInteraction.Ignore);
 
         foreach (RaycastHit hit in hitArray)
         {
@@ -123,6 +124,36 @@ public class FinalBoss : Character {
         timeToShootRay = timeToShootRayDelay + Time.time;
         shouldShootConventionalWeapons = true;
         shootingRay = false;
+
+        if (phase > 1)
+        {
+            StartCoroutine(ShootRay());
+        }
+    }
+
+    /// <summary>
+    /// El mob muere
+    /// </summary>
+    private void Die()
+    {
+        bm.SetWallsMovesDown(true);
+
+        GameObject killPS = Instantiate(killPSPrefab, this.transform.position, this.transform.rotation);
+
+        Destroy(killPS, 2);
+
+        Destroy(this.gameObject);
+    }
+
+    /// <summary>
+    /// Función de Character sobreescrita
+    /// </summary>
+    protected override void KillMe()
+    {
+        base.KillMe();
+
+        // MOB DOWN
+        Die();
     }
 
     /// <summary>

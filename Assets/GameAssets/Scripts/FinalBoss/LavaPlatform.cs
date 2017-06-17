@@ -44,6 +44,8 @@ public class LavaPlatform : MonoBehaviour {
     private void Start()
     {
         actualAngle = actualAngle * Mathf.Deg2Rad;
+        upperPlatformLimit = this.transform.localPosition.y;
+        lowerPlatformLimit = this.transform.localPosition.y - 5;
     }
 
     private void Update()
@@ -99,13 +101,13 @@ public class LavaPlatform : MonoBehaviour {
 
         if (platformMovesDown)
         {
-            position += -this.transform.up * Time.deltaTime;
+            position += -this.transform.up * 2 * Time.deltaTime;
 
             position.y = Mathf.Max(position.y, lowerPlatformLimit);
         }
         else
         {
-            position += this.transform.up * Time.deltaTime;
+            position += this.transform.up * 2 * Time.deltaTime;
 
             position.y = Mathf.Min(position.y, upperPlatformLimit);
         }
