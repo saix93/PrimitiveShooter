@@ -115,6 +115,8 @@ public class BossManager : MonoBehaviour
     {
         if (!hasStarted)
         {
+            fBoss.SetInvulnerableWeapons(false);
+
             wallsMovesDown = false;
 
             Invoke("ActivateBoss", 3);

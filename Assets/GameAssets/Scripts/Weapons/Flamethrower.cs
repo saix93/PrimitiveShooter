@@ -15,7 +15,7 @@ public class Flamethrower : Weapon {
 
     // Radio del ataque
     [SerializeField]
-    private float attackRadius = 1;
+    private float attackRadius = 5;
 
     // Distancia del ataque
     [SerializeField]
@@ -140,8 +140,6 @@ public class Flamethrower : Weapon {
             Character character = hitInfo.collider.GetComponent<Character>();
             if (character != null)
             {
-                Debug.Log("Ha chocado con " + hitInfo.collider.name);
-
                 character.ReceiveDamage(weaponDamage);
             }
         }

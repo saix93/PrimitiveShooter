@@ -36,7 +36,6 @@ public class Menu : MonoBehaviour {
     public void TurnToUpperCase()
     {
         inputField.text = inputField.text.ToUpper();
-        Debug.Log(inputField.text);
     }
 
     public void StoreInGameManager()

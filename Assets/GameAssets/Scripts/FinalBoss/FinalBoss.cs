@@ -6,6 +6,7 @@ public class FinalBoss : Character {
 
     /* Variables */
     private BossGun[] weaponArray;
+    private BossGunCharacter[] weaponCharacterArray;
     private Sword sword;
 
     private Player player;
@@ -36,6 +37,7 @@ public class FinalBoss : Character {
     private void Awake()
     {
         weaponArray = this.GetComponentsInChildren<BossGun>();
+        weaponCharacterArray = this.GetComponentsInChildren<BossGunCharacter>();
 
         sword = this.GetComponentInChildren<Sword>();
 
@@ -45,6 +47,8 @@ public class FinalBoss : Character {
     private void Start()
     {
         sword.gameObject.SetActive(false);
+
+        SetInvulnerableWeapons(true);
 
         this.invulnerable = true;
     }
@@ -128,6 +132,14 @@ public class FinalBoss : Character {
         if (phase > 1)
         {
             StartCoroutine(ShootRay());
+        }
+    }
+
+    public void SetInvulnerableWeapons(bool newVal)
+    {
+        foreach (Character weaponCharacter in weaponCharacterArray)
+        {
+            weaponCharacter.SetInvulnerable(newVal);
         }
     }
 

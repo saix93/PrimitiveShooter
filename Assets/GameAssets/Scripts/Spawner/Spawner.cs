@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour {
 
     // Tiempo entre spawn y spawn
     [SerializeField]
-    private int mobSpawnTime = 1;
+    private float mobSpawnTime = 0.5f;
 
     /* Métodos */
     private void Awake()
