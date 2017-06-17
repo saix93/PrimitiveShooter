@@ -142,11 +142,6 @@ public class FinalBoss : Character {
         }
         
         Invoke("DeactivateShootingRay", 2);
-        
-        if (phase > 1)
-        {
-            StartCoroutine(ShootRay());
-        }
     }
 
     private IEnumerator DisablePS(GameObject ps, float seconds)
