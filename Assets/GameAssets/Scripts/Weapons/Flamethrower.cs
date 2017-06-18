@@ -134,7 +134,7 @@ public class Flamethrower : Weapon {
         {
             currentClipAmmo--;
         }
-        timeToShoot = Time.time + firerate;
+        timeToShoot = Time.time + timeBetweenFire;
 
         RaycastHit[] hits = Physics.SphereCastAll(shootingPoint.position, attackRadius, shootingPoint.forward, attackDistance, layerMask, QueryTriggerInteraction.Ignore);
 

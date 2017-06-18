@@ -60,7 +60,7 @@ public class Weapon : MonoBehaviour {
 
     // Tiempo por cada disparo
     [SerializeField]
-    public float firerate = 0.4f;
+    public float timeBetweenFire = 0.4f;
 
     // Tiempo que el soldado tarda en recargar el arma
     [SerializeField]
@@ -102,7 +102,7 @@ public class Weapon : MonoBehaviour {
         {
             currentClipAmmo--;
         }
-        timeToShoot = Time.time + firerate;
+        timeToShoot = Time.time + timeBetweenFire;
 
         // Se crea la bala
         Rigidbody newBullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
