@@ -8,6 +8,7 @@ public class FinalBoss : Character {
     private BossGun[] weaponArray;
     private BossGunCharacter[] weaponCharacterArray;
     private Sword sword;
+    private BossPowerUp bossPowerUp;
 
     private Player player;
 
@@ -46,6 +47,7 @@ public class FinalBoss : Character {
         weaponCharacterArray = this.GetComponentsInChildren<BossGunCharacter>();
 
         sword = this.GetComponentInChildren<Sword>();
+        bossPowerUp = this.GetComponentInChildren<BossPowerUp>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
@@ -53,6 +55,7 @@ public class FinalBoss : Character {
     private void Start()
     {
         sword.gameObject.SetActive(false);
+        bossPowerUp.gameObject.SetActive(false);
 
         SetInvulnerableWeapons(true);
 
@@ -204,6 +207,11 @@ public class FinalBoss : Character {
     public Sword GetSword()
     {
         return sword;
+    }
+
+    public BossPowerUp GetBossPowerUp()
+    {
+        return bossPowerUp;
     }
 
     public float GetTimeToShootRayDelay()

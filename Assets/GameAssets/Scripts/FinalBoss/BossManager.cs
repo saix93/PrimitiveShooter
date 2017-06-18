@@ -118,6 +118,8 @@ public class BossManager : MonoBehaviour
     {
         if (!hasStarted)
         {
+            fBoss.GetBossPowerUp().gameObject.SetActive(true);
+
             finalBossAudio.Play();
 
             fBoss.SetInvulnerableWeapons(false);

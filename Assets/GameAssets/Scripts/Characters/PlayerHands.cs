@@ -5,17 +5,16 @@ using UnityEngine;
 public class PlayerHands : MonoBehaviour {
 
     /* Variables */
-    // ID del arma con la que empieza
-    [SerializeField]
-    private int startingWeaponID = 0;
-
     // WeaponsManager
     [SerializeField]
     private WeaponsManager weaponsManager;
 
+    private float fieldOfView;
+
     // Array de armas
     private Weapon[] weaponArray;
     
+    [SerializeField]
     private bool[] ownedWeapons;
 
     // Player
@@ -23,18 +22,25 @@ public class PlayerHands : MonoBehaviour {
 
     /* Métodos */
 
+    private void Awake()
+    {
+        fieldOfView = Camera.main.fieldOfView;
+
+        weaponArray = this.GetComponentsInChildren<Weapon>();
+    }
+
     private void Start()
     {
-        weaponArray = new Weapon[this.GetComponentsInChildren<Weapon>().Length];
-        weaponArray = this.GetComponentsInChildren<Weapon>();
-
-        ownedWeapons = new bool[weaponArray.Length];
-
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
-        ownedWeapons[startingWeaponID] = true;
-
-        ChooseWeapon(startingWeaponID);
+        for (int i = 0; i < ownedWeapons.Length; i++)
+        {
+            if (ownedWeapons[i])
+            {
+                ChooseWeapon(i);
+                break;
+            }
+        }
     }
 
     void Update () {
@@ -71,6 +77,8 @@ public class PlayerHands : MonoBehaviour {
         {
             return;
         }
+
+        Camera.main.fieldOfView = fieldOfView;
 
         DisableWeapons();
 
